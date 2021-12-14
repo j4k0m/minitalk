@@ -10,3 +10,5 @@ clean:
 	rm -f server client
 
 fclean: clean
+
+re: fclean all
