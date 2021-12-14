@@ -82,7 +82,7 @@ int	main(int argc, char **argv)
 		pid = ft_atoi((const char *)argv[1]);
 		if (pid == 0 || pid < 0)
 		{
-			write(1, "Invalid PID, or trying to send string to the same process.\n", 60);
+			write(1, "Invalid PID!\n", 13);
 			return (0);
 		}
 		while (argv[2][i])
