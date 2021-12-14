@@ -2,6 +2,20 @@
 
 t_byte_struct char_byte;
 
+void	ft_putnbr(int n)
+{
+	char	c;
+
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	} else {
+		c = n + '0';
+		write(1, &c, 1);
+	}
+}
+
 void	set_bit(int bit, int	*i)
 {
 	if (*i == 1)
@@ -52,7 +66,9 @@ int	main(void)
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	printf("%d\n", getpid());
+	write(1, "PID: ", 6);
+	ft_putnbr(getpid());
+	write(1, "\n", 1);
 	while (1)
 		pause();
 	return (0);

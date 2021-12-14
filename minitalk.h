@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct byte
 {
@@ -15,7 +16,5 @@ typedef struct byte
     unsigned char b7:1;
     unsigned char b8:1;
 } t_byte_struct;
-
-int	ft_atoi(const char *nptr);
 
 #endif
