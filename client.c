@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ael-hask <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/12/14 19:56:31 by ael-hask          #+#    #+#             */
+/*   Updated: 2021/12/14 19:56:32 by ael-hask         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 static size_t	check(size_t n, const char *nptr, int sign)
@@ -58,8 +70,8 @@ void	send_signal(int bit, int pid)
 
 void	convert(int c, int pid)
 {
-	t_byte_struct byte_char;
-	
+	t_byte_struct	byte_char;
+
 	*(unsigned char *)&byte_char = (unsigned char)c;
 	send_signal(byte_char.b1, pid);
 	send_signal(byte_char.b2, pid);
