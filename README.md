@@ -202,3 +202,65 @@ Now when I ask C how big my struct foo is, it tells me 4! It was 16 bytes, but n
 The tradeoff is, of course, that the 5-bit fields can only hold values from 0-31 and the 3-bit fields can only hold values from 0-7. But life’s all about compromise, after all.
 
 Source: https://beej.us/guide/bgc/html/split/structs-ii-more-fun-with-structs.html#bit-fields
+
+# What is Unicode?
+
+Back in the day, it was popular in the US and much of the world to use a 7-bit or 8-bit encoding for characters in memory. This meant we could have 128 or 256 characters (including non-printable characters) total. That was fine for a US-centric world, but it turns out there are actually other alphabets out there—who knew? Chinese has over 50,000 characters, and that’s not fitting in a byte.
+
+So people came up with all kinds of alternate ways to represent their own custom character sets. And that was fine, but turned into a compatibility nightmare.
+
+To escape it, Unicode was invented. One character set to rule them all. It extends off into infinity (effectively) so we’ll never run out of space for new characters. It has Chinese, Latin, Greek, cuneiform, chess symbols, emojis… just about everything, really! And more is being added all the time!
+
+## Unicode in C
+
+Before I get into encoding in C, let’s talk about Unicode from a code point standpoint. There is a way in C to specify Unicode characters and these will get translated by the compiler into the execution character.
+
+So how do we do it?
+
+How about the euro symbol, code point 0x20AC. (I’ve written it in hex because both ways of representing it in C require hex.) How can we put that in our C code?
+
+Use the \u escape to put it in a string, e.g. "\u20AC" (case for the hex doesn’t matter). You must put exactly four hex digits after the \u, padding with leading zeros if necessary.
+
+Here’s an example:
+
+```c
+char *s = "\u20AC1.23";
+
+printf("%s\n", s);  // €1.23
+```
+
+So \u works for 16-bit Unicode code points, but what about ones bigger than 16 bits? For that, we need capitals: \U.
+
+For example:
+
+```c
+char *s = "\U0001D4D1";
+
+printf("%s\n", s);  // Prints a mathematical letter "B"
+```
+
+It’s the same as \u, just with 32 bits instead of 16. These are equivalent:
+
+```
+\u03C0
+\U000003C0
+```
+
+Again, these are translated into the execution character set during compilation. They represent Unicode code points, not any specific encoding. Furthermore, if a Unicode code point is not representable in the execution character set, the compiler can do whatever it wants with it.
+
+Now, you might wonder why you can’t just do this:
+
+```c
+char *s = "€1.23";
+
+printf("%s\n", s);  // €1.23
+```
+
+And you probably can, given a modern compiler. The source character set will be translated for you into the execution character set by the compiler. But compilers are free to puke out if they find any characters that aren’t included in their extended character set, and the € symbol certainly isn’t in the basic character set.
+
+Caveat from the spec: you can’t use \u or \U to encode any code points below 0xA0 except for 0x24 ($), 0x40 (@), and 0x60 (\`) —yes, those are precisely the trio of common punctuation marks missing from the basic character set. Apparently this restriction is relaxed in the upcoming version of the spec.
+
+Finally, you can also use these in identifiers in your code, with some restrictions. But I don’t want to get into that here. We’re all about string handling in this chapter.
+
+And that’s about it for Unicode in C.
+
