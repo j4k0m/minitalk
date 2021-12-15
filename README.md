@@ -159,3 +159,46 @@ Source: https://beej.us/guide/bgc/html/split/signal-handling.html
 # Take your knowledge to the next level:
 
 - https://elixir.bootlin.com/linux/latest/source/include/linux/signal.h
+
+# Bit Fields:
+
+In my experience, these are rarely used, but you might see them out there from time to time, especially in lower-level applications that pack bits together into larger spaces.
+
+Let’s take a look at some code to demonstrate a use case:
+
+```c
+#include <stdio.h>
+
+struct foo {
+    unsigned int a;
+    unsigned int b;
+    unsigned int c;
+    unsigned int d;
+};
+
+int main(void)
+{
+    printf("%zu\n", sizeof(struct foo));
+}
+```
+
+For me, this prints 16. Which makes sense, since unsigneds are 4 bytes on my system.
+
+But what if we knew that all the values that were going to be stored in a and b could be stored in 5 bits, and the values in c, and d could be stored in 3 bits? That’s only a total 16 bits. Why have 128 bits reserved for them if we’re only going to use 16?
+
+Well, we can tell C to pretty-please try to pack these values in. We can specify the maximum number of bits that values can take (from 1 up the size of the containing type).
+
+```c
+struct foo {
+    unsigned int a:5;
+    unsigned int b:5;
+    unsigned int c:3;
+    unsigned int d:3;
+};
+```
+
+Now when I ask C how big my struct foo is, it tells me 4! It was 16 bytes, but now it’s only 4. It has “packed” those 4 values down into 4 bytes, which is a four-fold memory savings.
+
+The tradeoff is, of course, that the 5-bit fields can only hold values from 0-31 and the 3-bit fields can only hold values from 0-7. But life’s all about compromise, after all.
+
+Source: https://beej.us/guide/bgc/html/split/structs-ii-more-fun-with-structs.html#bit-fields
