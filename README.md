@@ -98,7 +98,7 @@ Let’s do an example where we make it so you have to hit CTRL-C twice to exit.
 
 I want to be clear that this program engages in undefined behavior in a couple ways. But it’ll probably work for you, and it’s hard to come up with portable non-trivial demos.
 
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
