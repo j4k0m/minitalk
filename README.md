@@ -264,3 +264,4 @@ Finally, you can also use these in identifiers in your code, with some restricti
 
 And that’s about it for Unicode in C.
 
+Source: https://beej.us/guide/bgc/html/split/unicode-wide-characters-and-all-that.html#what-is-unicode
