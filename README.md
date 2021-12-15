@@ -155,3 +155,7 @@ Quick note on line 16—that’s just to tell the compiler to not warn that we�
 And lastly you’ll see that I’ve marked undefined behavior in a couple places. More on that in the next section.
 
 Source: https://beej.us/guide/bgc/html/split/signal-handling.html
+
+# Take your knowledge to the next level:
+
+- https://elixir.bootlin.com/linux/latest/source/include/linux/signal.h
